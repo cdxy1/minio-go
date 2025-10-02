@@ -7,5 +7,7 @@ postgres:
   user: admin
   password: 1234
   database: test
+logger:
+  env: local
 
   
