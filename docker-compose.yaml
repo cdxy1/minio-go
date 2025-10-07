@@ -1,0 +1,16 @@
+services:
+  postgres:
+    image: postgres:alpine
+    container_name: postgres_fastapi
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: 1234
+      POSTGRES_DB: test
+    volumes:
+      - postgres_data:/var/lib/p ostgresql/data
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
