@@ -23,7 +23,7 @@ func NewPostgres() (*pgxpool.Pool, error) {
 		return nil, err
 	}
 
-	_, err = pool.Exec(context.Background(), `CREATE TABLE IF NOT EXISTSfiles (
+	_, err = pool.Exec(context.Background(), `CREATE TABLE IF NOT EXISTS files (
 		id SERIAL PRIMARY KEY,
 		name VARCHAR(255) NOT NULL,
 		url TEXT,

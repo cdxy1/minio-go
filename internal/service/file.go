@@ -15,6 +15,7 @@ func (fs *FileService) GetFile(ctx context.Context, id int) (*entity.File, error
 	f, err := fs.Repo.GetByID(ctx, id)
 
 	if err != nil {
+		println(err.Error())
 		return nil, err
 	}
 

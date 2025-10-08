@@ -2,6 +2,7 @@ package routes
 
 import (
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 
@@ -19,6 +20,7 @@ func NewFileHandler(r *gin.Engine, fs *service.FileService) *FileHandler {
 	files := r.Group("/file")
 	{
 		files.POST("", fh.Create)
+		files.GET(":id", fh.Find)
 	}
 	return fh
 }
@@ -39,4 +41,23 @@ func (fh *FileHandler) Create(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusCreated, f)
+}
+
+func (fh *FileHandler) Find(c *gin.Context) {
+	idPath := c.Param("id")
+	id, err := strconv.Atoi(idPath)
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid param"})
+		return
+	}
+
+	res, err := fh.fs.GetFile(c, id)
+
+	if err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": "not found"})
+		return
+	}
+
+	c.JSON(http.StatusOK, res)
 }

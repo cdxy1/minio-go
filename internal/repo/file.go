@@ -36,7 +36,7 @@ func (fr *File) GetByID(ctx context.Context, id int) (*entity.File, error) {
 
 	row := tx.QueryRow(ctx, `SELECT id, name, url, created_at FROM "files" WHERE id=$1`, id)
 
-	err = row.Scan(&f)
+	err = row.Scan(&f.Id, &f.Name, &f.Url, &f.CreatedAt)
 
 	if err != nil {
 		return nil, err

@@ -7,7 +7,7 @@ services:
       POSTGRES_PASSWORD: 1234
       POSTGRES_DB: test
     volumes:
-      - postgres_data:/var/lib/p ostgresql/data
+      - postgres_data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
     restart: unless-stopped
