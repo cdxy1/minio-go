@@ -23,5 +23,16 @@ func NewPostgres() (*pgxpool.Pool, error) {
 		return nil, err
 	}
 
+	_, err = pool.Exec(context.Background(), `CREATE TABLE IF NOT EXISTSfiles (
+		id SERIAL PRIMARY KEY,
+		name VARCHAR(255) NOT NULL,
+		url TEXT,
+		created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+	)`)
+
+	if err != nil {
+		return nil, err
+	}
+
 	return pool, nil
 }

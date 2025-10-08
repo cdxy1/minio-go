@@ -2,23 +2,23 @@ package repo
 
 import (
 	"context"
-	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/cdxy1/go-file-storage/internal/entity"
+	"github.com/jackc/pgx/v5/pgxpool"
 )
 
 type File struct {
-	db *pgxpool.Pool
+	Db *pgxpool.Pool
 }
 
-func (fr *File) Create(ctx context.Context) error {
-	tx, err := fr.db.Begin(ctx)
+func (fr *File) Create(ctx context.Context, u *entity.File) error {
+	tx, err := fr.Db.Begin(ctx)
 
 	if err != nil {
 		return err
 	}
 	defer tx.Rollback(ctx)
 
-	if _, err := tx.Exec(ctx, `INSERT INTO "files"(name, url, created_at) VALUES ($1,$2,$3)`, ); err != nil {
+	if _, err := tx.Exec(ctx, `INSERT INTO "files"(name, url) VALUES ($1,$2)`, u.Name, u.Url); err != nil {
 		return err
 	}
 
@@ -26,10 +26,10 @@ func (fr *File) Create(ctx context.Context) error {
 }
 
 func (fr *File) GetByID(ctx context.Context, id int) (*entity.File, error) {
-	tx, err := fr.db.Begin(ctx)
+	tx, err := fr.Db.Begin(ctx)
 	var f entity.File
 
-	if err != nil{
+	if err != nil {
 		return nil, err
 	}
 	defer tx.Rollback(ctx)
