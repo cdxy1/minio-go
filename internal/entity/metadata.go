@@ -2,7 +2,7 @@ package entity
 
 import "time"
 
-type File struct {
+type Metadata struct {
 	Id        int       `json:"id,omitempty"`
 	Name      string    `json:"name"`
 	Url       string    `json:"url"`

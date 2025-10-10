@@ -6,12 +6,12 @@ import (
 	"github.com/jackc/pgx/v5/pgxpool"
 )
 
-type File struct {
+type Metadata struct {
 	Db *pgxpool.Pool
 }
 
-func (fr *File) Create(ctx context.Context, u *entity.File) error {
-	tx, err := fr.Db.Begin(ctx)
+func (md *Metadata) Create(ctx context.Context, u *entity.Metadata) error {
+	tx, err := md.Db.Begin(ctx)
 
 	if err != nil {
 		return err
@@ -25,9 +25,9 @@ func (fr *File) Create(ctx context.Context, u *entity.File) error {
 	return tx.Commit(ctx)
 }
 
-func (fr *File) GetByID(ctx context.Context, id int) (*entity.File, error) {
-	tx, err := fr.Db.Begin(ctx)
-	var f entity.File
+func (md *Metadata) GetByID(ctx context.Context, id int) (*entity.Metadata, error) {
+	tx, err := md.Db.Begin(ctx)
+	var f entity.Metadata
 
 	if err != nil {
 		return nil, err

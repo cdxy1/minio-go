@@ -7,11 +7,11 @@ import (
 	"github.com/cdxy1/go-file-storage/internal/repo"
 )
 
-type FileService struct {
-	Repo *repo.File
+type MetadataService struct {
+	Repo *repo.Metadata
 }
 
-func (fs *FileService) GetFile(ctx context.Context, id int) (*entity.File, error) {
+func (fs *MetadataService) GetFile(ctx context.Context, id int) (*entity.Metadata, error) {
 	f, err := fs.Repo.GetByID(ctx, id)
 
 	if err != nil {
@@ -22,7 +22,7 @@ func (fs *FileService) GetFile(ctx context.Context, id int) (*entity.File, error
 	return f, nil
 }
 
-func (fs *FileService) CreateFile(ctx context.Context, u *entity.File) error {
+func (fs *MetadataService) CreateFile(ctx context.Context, u *entity.Metadata) error {
 	if err := fs.Repo.Create(ctx, u); err != nil {
 		return err
 	}

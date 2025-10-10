@@ -1,4 +1,4 @@
-package routes
+package http
 
 import (
 	"net/http"
@@ -10,23 +10,23 @@ import (
 	"github.com/cdxy1/go-file-storage/internal/service"
 )
 
-type FileHandler struct {
-	fs *service.FileService
+type MetadataHandler struct {
+	fs *service.MetadataService
 }
 
-func NewFileHandler(r *gin.Engine, fs *service.FileService) *FileHandler {
-	fh := &FileHandler{fs}
+func NewMetadataHandler(r *gin.Engine, fs *service.MetadataService) *MetadataHandler {
+	md := &MetadataHandler{fs}
 
 	files := r.Group("/file")
 	{
-		files.POST("", fh.Create)
-		files.GET(":id", fh.Find)
+		files.POST("", md.Create)
+		files.GET(":id", md.Find)
 	}
-	return fh
+	return md
 }
 
-func (fh *FileHandler) Create(c *gin.Context) {
-	var f entity.File
+func (fh *MetadataHandler) Create(c *gin.Context) {
+	var f entity.Metadata
 
 	err := c.ShouldBindJSON(&f)
 
@@ -43,7 +43,7 @@ func (fh *FileHandler) Create(c *gin.Context) {
 	c.JSON(http.StatusCreated, f)
 }
 
-func (fh *FileHandler) Find(c *gin.Context) {
+func (fh *MetadataHandler) Find(c *gin.Context) {
 	idPath := c.Param("id")
 	id, err := strconv.Atoi(idPath)
 
