@@ -32,7 +32,7 @@ func NewMinio() (*Minio, error) {
 
 	minio := &Minio{
 		MinioClient: mc,
-		BucketName: cfg.Minio.Bucket,
+		BucketName:  cfg.Minio.Bucket,
 	}
 
 	return minio, nil

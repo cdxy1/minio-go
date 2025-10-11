@@ -22,7 +22,7 @@ func (f *File) PutFile(ctx context.Context, objName string, reader io.Reader, si
 	return nil
 }
 
-func (f *File) GetFile(ctx context.Context, objName string, ) (*minio.Object, error){
+func (f *File) GetFile(ctx context.Context, objName string) (*minio.Object, error) {
 	obj, err := f.mc.MinioClient.GetObject(ctx, f.mc.BucketName, objName, minio.GetObjectOptions{})
 
 	if err != nil {
