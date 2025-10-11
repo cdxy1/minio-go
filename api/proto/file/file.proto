@@ -1,0 +1,28 @@
+syntax="proto3";
+
+package file;
+
+option go_package = "github.com/cdxy1/go-file-storage/file_grpc;file";
+
+service File {
+    rpc UploadFile(UploadFileRequest) returns (UploadFileResponse);
+    rpc GetFile(GetFileRequest) returns (GetFileResponse);
+};
+
+message UploadFileRequest {
+    string name = 1;
+    bytes data = 2;
+}
+
+message UploadFileResponse {
+    string name = 1;
+}
+
+message GetFileRequest {
+    string name = 1;
+}
+
+message GetFileResponse {
+    string name = 1;
+    bytes data = 2;
+}

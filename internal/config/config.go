@@ -10,7 +10,7 @@ type Config struct {
 	Server   ServerConfig
 	Postgres PostgresConfig
 	Logger   LoggerConfig
-	Minio MinioConfig
+	Minio    MinioConfig
 }
 
 type ServerConfig struct {
@@ -31,6 +31,7 @@ type MinioConfig struct {
 	User     string
 	Password string
 	UseSSL   bool
+	Bucket   string
 }
 
 type LoggerConfig struct {

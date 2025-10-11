@@ -14,5 +14,6 @@ minio:
   user: admin123
   password: admin123
   usessl: false
+  bucket: "vedro"
 
   
