@@ -12,7 +12,7 @@ type File struct {
 	mc *ms.Minio
 }
 
-func NewFileRepo() (*File, error){
+func NewFileRepo() (*File, error) {
 	ms, err := ms.NewMinio()
 
 	if err != nil {

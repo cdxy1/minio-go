@@ -23,11 +23,11 @@ func NewApp() {
 
 	handler := file.NewFileHandler(svc)
 
-	grpcSrc := grpc.NewServer()
+	grpcSrv := grpc.NewServer()
 
-	file.RegisterFileServiceServer(grpcSrc, handler)
+	file.RegisterFileServiceServer(grpcSrv, handler)
 
-	if err := grpcSrc.Serve(lis); err != nil {
+	if err := grpcSrv.Serve(lis); err != nil {
 		panic("grpc server not started")
 	}
 }

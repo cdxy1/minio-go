@@ -1,7 +1,9 @@
 .DEFAULT_GOAL := build
 
 BIN_DIR = ./bin
-APP_NAME = service
+APP1_NAME = gateway
+APP2_NAME = file
+
 
 up:
 	docker compose up -d
@@ -25,5 +27,6 @@ proto: vet
 
 build: proto
 	@echo "Building service >>>>>>>>>"
-	go build -o $(BIN_DIR)/$(APP_NAME) ./cmd/app
+	go build -o $(BIN_DIR)/$(APP1_NAME) ./cmd/file_service/main.go
+	go build -o $(BIN_DIR)/$(APP2_NAME) ./cmd/gateway/main.go
 .PHONY: build

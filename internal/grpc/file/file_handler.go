@@ -11,7 +11,7 @@ type FileHandler struct {
 	svc *repo.File
 }
 
-func NewFileHandler(svc *repo.File) *FileHandler{
+func NewFileHandler(svc *repo.File) *FileHandler {
 	return &FileHandler{svc: svc}
 }
 
