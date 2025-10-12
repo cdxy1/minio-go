@@ -12,7 +12,17 @@ type File struct {
 	mc *ms.Minio
 }
 
-func (f *File) PutFile(ctx context.Context, objName string, reader io.Reader, size int64) error {
+func NewFileRepo() (*File, error){
+	ms, err := ms.NewMinio()
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &File{ms}, nil
+}
+
+func (f *File) Put(ctx context.Context, objName string, reader io.Reader, size int64) error {
 	_, err := f.mc.MinioClient.PutObject(ctx, f.mc.BucketName, objName, reader, size, minio.PutObjectOptions{})
 
 	if err != nil {
@@ -22,7 +32,7 @@ func (f *File) PutFile(ctx context.Context, objName string, reader io.Reader, si
 	return nil
 }
 
-func (f *File) GetFile(ctx context.Context, objName string) (*minio.Object, error) {
+func (f *File) GetByName(ctx context.Context, objName string) (*minio.Object, error) {
 	obj, err := f.mc.MinioClient.GetObject(ctx, f.mc.BucketName, objName, minio.GetObjectOptions{})
 
 	if err != nil {

@@ -2,11 +2,11 @@ syntax="proto3";
 
 package file;
 
-option go_package = "github.com/cdxy1/go-file-storage/file_grpc;file";
+option go_package = "/grpc/file;file";
 
-service File {
+service FileService {
     rpc UploadFile(UploadFileRequest) returns (UploadFileResponse);
-    rpc GetFile(GetFileRequest) returns (GetFileResponse);
+    rpc DownloadFile(DownloadFileRequest) returns (DownloadFileResponse);
 };
 
 message UploadFileRequest {
@@ -18,11 +18,11 @@ message UploadFileResponse {
     string name = 1;
 }
 
-message GetFileRequest {
+message DownloadFileRequest {
     string name = 1;
 }
 
-message GetFileResponse {
+message DownloadFileResponse {
     string name = 1;
     bytes data = 2;
 }

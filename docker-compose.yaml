@@ -11,9 +11,9 @@ services:
     ports:
       - "5432:5432"
     restart: unless-stopped
-  minio-storage:
+  minio:
     image: minio/minio
-    container_name: minio-storage
+    container_name: minio_storage
     environment:
       MINIO_ROOT_USER: admin123
       MINIO_ROOT_PASSWORD: admin123
