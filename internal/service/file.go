@@ -22,10 +22,12 @@ func (fs *FileService) DownloadFile(ctx context.Context, objName string) ([]byte
 	if err != nil {
 		return nil, err
 	}
+	defer obj.Close()
 
 	data, err := io.ReadAll(obj)
 
 	if err != nil {
+		println(obj, err.Error())
 		return nil, err
 	}
 

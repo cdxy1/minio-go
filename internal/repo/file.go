@@ -23,7 +23,7 @@ func NewFileRepo() (*File, error) {
 }
 
 func (f *File) Put(ctx context.Context, objName string, reader io.Reader, size int64) error {
-	_, err := f.mc.MinioClient.PutObject(ctx, f.mc.BucketName, objName, reader, size, minio.PutObjectOptions{})
+	_, err := f.mc.MinioClient.PutObject(ctx, f.mc.BucketName, objName, reader, size, minio.PutObjectOptions{ContentType: "application/octet-stream"})
 
 	if err != nil {
 		return err
@@ -38,7 +38,6 @@ func (f *File) GetByName(ctx context.Context, objName string) (*minio.Object, er
 	if err != nil {
 		return nil, err
 	}
-	defer obj.Close()
 
 	return obj, nil
 }
