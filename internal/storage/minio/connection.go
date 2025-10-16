@@ -23,6 +23,7 @@ func NewMinio() (*Minio, error) {
 	})
 
 	if err != nil {
+		println(err.Error())
 		return nil, err
 	}
 

@@ -10,7 +10,7 @@ postgres:
 logger:
   env: local
 minio:
-  endpoint: http://127.0.0.1:9000
+  endpoint: localhost:9000
   user: admin123
   password: admin123
   usessl: false

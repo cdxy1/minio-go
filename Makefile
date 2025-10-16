@@ -1,8 +1,8 @@
 .DEFAULT_GOAL := build
 
 BIN_DIR = ./bin
-APP1_NAME = gateway
-APP2_NAME = file
+APP1_NAME = file
+APP2_NAME = gateway
 
 
 up:
