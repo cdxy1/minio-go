@@ -38,6 +38,7 @@ func (f *File) GetByName(ctx context.Context, objName string) (*minio.Object, er
 	if err != nil {
 		return nil, err
 	}
+	defer obj.Close()
 
 	return obj, nil
 }

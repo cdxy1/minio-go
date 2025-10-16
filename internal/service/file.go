@@ -3,31 +3,41 @@ package service
 import (
 	"bytes"
 	"context"
+	"io"
 
 	"github.com/cdxy1/go-file-storage/internal/repo"
-	"github.com/minio/minio-go/v7"
 )
 
 type FileService struct {
-	repo *repo.File
+	Repo *repo.File
 }
 
-func (fs *FileService) DownloadFile(ctx context.Context, objName string) (*minio.Object, error){
-	obj, err := fs.repo.GetByName(ctx, objName)
+func NewFileService(repo *repo.File) *FileService {
+	return &FileService{Repo: repo}
+}
+
+func (fs *FileService) DownloadFile(ctx context.Context, objName string) ([]byte, error) {
+	obj, err := fs.Repo.GetByName(ctx, objName)
 
 	if err != nil {
 		return nil, err
 	}
 
-	return obj, err
+	data, err := io.ReadAll(obj)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return data, nil
 }
 
-func (fs *FileService) UploadFile(ctx context.Context, objName string, objData []byte) error {
+func (fs *FileService) UploadFile(ctx context.Context, objName string, objData []byte) (string, error) {
 	rdr := bytes.NewReader(objData)
 	dl := int64(rdr.Len())
 
-	if err := fs.repo.Put(ctx, objName, rdr, dl); err != nil {
-		return err
+	if err := fs.Repo.Put(ctx, objName, rdr, dl); err != nil {
+		return "", err
 	}
-	return nil
+	return objName, nil
 }

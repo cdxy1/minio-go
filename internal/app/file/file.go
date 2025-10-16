@@ -5,6 +5,7 @@ import (
 
 	"github.com/cdxy1/go-file-storage/internal/grpc/file"
 	"github.com/cdxy1/go-file-storage/internal/repo"
+	"github.com/cdxy1/go-file-storage/internal/service"
 	"google.golang.org/grpc"
 )
 
@@ -15,7 +16,8 @@ func NewApp() {
 		panic("Grpc server not started")
 	}
 
-	svc, err := repo.NewFileRepo()
+	r, err := repo.NewFileRepo()
+	svc := service.NewFileService(r)
 
 	if err != nil {
 		panic("Grpc server not started")
