@@ -17,10 +17,10 @@ type MetadataHandler struct {
 func NewMetadataHandler(r *gin.Engine, fs *service.MetadataService) *MetadataHandler {
 	md := &MetadataHandler{fs}
 
-	files := r.Group("/file")
+	metadata := r.Group("/metadata")
 	{
-		files.POST("", md.Create)
-		files.GET(":id", md.Find)
+		metadata.POST("", md.Create)
+		metadata.GET(":id", md.Find)
 	}
 	return md
 }
