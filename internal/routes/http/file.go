@@ -1,6 +1,7 @@
 package http
 
 import (
+	"fmt"
 	"io"
 	"net/http"
 
@@ -39,7 +40,7 @@ func Download(c *gin.Context, client file.FileServiceClient) {
 	}
 
 	data := resp.Data
-
+	c.Header("Content-Disposition", fmt.Sprintf("attachment; filename=\"%s\"", fileId))
 	c.Data(http.StatusOK, "application/octet-stream", data)
 }
 
