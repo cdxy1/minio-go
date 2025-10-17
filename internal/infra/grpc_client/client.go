@@ -6,7 +6,7 @@ import (
 	pb "github.com/cdxy1/go-file-storage/internal/grpc/file"
 )
 
-func NewFileGrpcClient() (pb.FileServiceClient, error){
+func NewFileGrpcClient() (pb.FileServiceClient, error) {
 	conn, err := grpc.NewClient("localhost:50051")
 
 	if err != nil {

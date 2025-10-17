@@ -6,7 +6,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	"github.com/cdxy1/go-file-storage/internal/entity"
+	// "github.com/cdxy1/go-file-storage/internal/entity"
 	"github.com/cdxy1/go-file-storage/internal/service"
 )
 
@@ -19,29 +19,28 @@ func NewMetadataHandler(r *gin.Engine, fs *service.MetadataService) *MetadataHan
 
 	metadata := r.Group("/metadata")
 	{
-		metadata.POST("", md.Create)
 		metadata.GET(":id", md.Find)
 	}
 	return md
 }
 
-func (fh *MetadataHandler) Create(c *gin.Context) {
-	var f entity.Metadata
+// func (fh *MetadataHandler) Create(c *gin.Context) {
+// 	var f entity.Metadata
 
-	err := c.ShouldBindJSON(&f)
+// 	err := c.ShouldBindJSON(&f)
 
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
+// 	if err != nil {
+// 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+// 		return
+// 	}
 
-	if err := fh.fs.CreateFile(c, &f); err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-		return
-	}
+// 	if err := fh.fs.CreateFile(c, &f); err != nil {
+// 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+// 		return
+// 	}
 
-	c.JSON(http.StatusCreated, f)
-}
+// 	c.JSON(http.StatusCreated, f)
+// }
 
 func (fh *MetadataHandler) Find(c *gin.Context) {
 	idPath := c.Param("id")
