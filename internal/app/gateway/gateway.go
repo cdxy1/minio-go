@@ -23,6 +23,7 @@ func NewApp() *gin.Engine {
 	fs := service.MetadataService{Repo: &fr}
 
 	http.NewMetadataHandler(r, &fs)
+	http.NewFileHandler(r)
 
 	return r
 }

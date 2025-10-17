@@ -6,5 +6,5 @@ import (
 
 func main() {
 	srv := gateway.NewApp()
-	srv.Run()
+	srv.Run(":8080")
 }

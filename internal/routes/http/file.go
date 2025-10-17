@@ -13,6 +13,7 @@ import (
 func NewFileHandler(r *gin.Engine) {
 	client, err := grpcclient.NewFileGrpcClient()
 	if err != nil {
+		println(err.Error())
 		panic("blabla")
 	}
 
@@ -21,7 +22,7 @@ func NewFileHandler(r *gin.Engine) {
 		file.GET(":id/download", func(c *gin.Context) {
 			Download(c, client)
 		})
-		file.POST("/upload", func(c *gin.Context) {
+		file.POST("upload", func(c *gin.Context) {
 			Upload(c, client)
 		})
 	}
