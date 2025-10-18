@@ -9,6 +9,7 @@ import (
 
 	"github.com/cdxy1/go-file-storage/internal/grpc/file"
 	grpcclient "github.com/cdxy1/go-file-storage/internal/infra/grpc_client"
+	"github.com/cdxy1/go-file-storage/internal/lib"
 )
 
 func NewFileHandler(r *gin.Engine) {
@@ -58,7 +59,7 @@ func Upload(c *gin.Context, client file.FileServiceClient) {
 		return
 	}
 	defer fileData.Close()
-
+	lib.ExtractMetadata(fileHeader) //TODO: Тут надо подумать как передать все крч
 	data, err := io.ReadAll(fileData)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
