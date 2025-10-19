@@ -3,6 +3,7 @@ package producer
 import (
 	"errors"
 
+	"github.com/cdxy1/go-file-storage/internal/config"
 	"github.com/confluentinc/confluent-kafka-go/v2/kafka"
 )
 
@@ -13,8 +14,10 @@ type Producer struct {
 }
 
 func NewProducer() (*Producer, error) {
+	cfg := config.GetConfig()
+
 	conf := kafka.ConfigMap{
-		"bootstrap.servers": "fdsafsd",
+		"bootstrap.servers": cfg.Kafka.Host,
 	}
 	p, err := kafka.NewProducer(&conf)
 	if err != nil {

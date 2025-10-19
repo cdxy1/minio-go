@@ -59,7 +59,7 @@ func Upload(c *gin.Context, client file.FileServiceClient) {
 		return
 	}
 	defer fileData.Close()
-	lib.ExtractMetadata(fileHeader) //TODO: Тут надо подумать как передать все крч
+	lib.ExtractMetadata(fileHeader)
 	data, err := io.ReadAll(fileData)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})

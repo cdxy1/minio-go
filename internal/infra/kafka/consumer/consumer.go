@@ -1,6 +1,9 @@
 package consumer
 
-import "github.com/confluentinc/confluent-kafka-go/v2/kafka"
+import (
+	"github.com/cdxy1/go-file-storage/internal/config"
+	"github.com/confluentinc/confluent-kafka-go/v2/kafka"
+)
 
 type Handler interface {
 	HandleMessage(msg []byte, offset kafka.Offset) error
@@ -13,13 +16,15 @@ type Consumer struct {
 }
 
 func NewConsumer(handler Handler) (*Consumer, error) {
+	cfg := config.GetConfig()
+
 	kafkaCfg := kafka.ConfigMap{
-		"bootstrap.servers":        "",
-		"group.id":                 "metadata-group",
-		"session.timeout.ms":       5000,
-		"enable.auto.offset.store": false,
-		"enable.auto.commit":       true,
-		"auto.commit.interval.ms":  5000,
+		"bootstrap.servers":        cfg.Kafka.Host,
+		"group.id":                 cfg.Kafka.Group,
+		"session.timeout.ms":       cfg.Kafka.Timeout,
+		"enable.auto.offset.store": cfg.Kafka.OffsetStore,
+		"enable.auto.commit":       cfg.Kafka.AutoCommit,
+		"auto.commit.interval.ms":  cfg.Kafka.CommitInterval,
 	}
 
 	c, err := kafka.NewConsumer(&kafkaCfg)

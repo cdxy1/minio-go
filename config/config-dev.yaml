@@ -15,5 +15,12 @@ minio:
   password: admin123
   usessl: false
   bucket: "vedro"
+kafka:
+  host: kafka:9092
+  group: metadata-group
+  timeout: 5000
+  autocommit: true
+  offsetstore: false
+  commitinterval: 5000
 
   

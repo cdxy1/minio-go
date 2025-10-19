@@ -11,6 +11,7 @@ type Config struct {
 	Postgres PostgresConfig
 	Logger   LoggerConfig
 	Minio    MinioConfig
+	Kafka    KafkaConfig
 }
 
 type ServerConfig struct {
@@ -32,6 +33,15 @@ type MinioConfig struct {
 	Password string
 	UseSSL   bool
 	Bucket   string
+}
+
+type KafkaConfig struct {
+	Host           string
+	Group          string
+	Timeout        int
+	AutoCommit     bool
+	OffsetStore    bool
+	CommitInterval int
 }
 
 type LoggerConfig struct {
