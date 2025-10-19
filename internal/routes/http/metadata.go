@@ -1,12 +1,15 @@
 package http
 
 import (
+	"encoding/json"
+	"fmt"
 	"net/http"
 	"strconv"
 
+	"github.com/confluentinc/confluent-kafka-go/v2/kafka"
 	"github.com/gin-gonic/gin"
 
-	// "github.com/cdxy1/go-file-storage/internal/entity"
+	"github.com/cdxy1/go-file-storage/internal/entity"
 	"github.com/cdxy1/go-file-storage/internal/service"
 )
 
@@ -23,24 +26,6 @@ func NewMetadataHandler(r *gin.Engine, fs *service.MetadataService) *MetadataHan
 	}
 	return md
 }
-
-// func (fh *MetadataHandler) Create(c *gin.Context) {
-// 	var f entity.Metadata
-
-// 	err := c.ShouldBindJSON(&f)
-
-// 	if err != nil {
-// 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-// 		return
-// 	}
-
-// 	if err := fh.fs.CreateFile(c, &f); err != nil {
-// 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-// 		return
-// 	}
-
-// 	c.JSON(http.StatusCreated, f)
-// }
 
 func (fh *MetadataHandler) Find(c *gin.Context) {
 	idPath := c.Param("id")
@@ -59,4 +44,15 @@ func (fh *MetadataHandler) Find(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, res)
+}
+
+func (fh *MetadataHandler) HandleMessage(msg []byte, offset kafka.Offset) error {
+	data := entity.Metadata{}
+	if err := json.Unmarshal(msg, &data); err != nil {
+		println("fuyegwiugyfewuhygewfefwuihyg")
+		return err
+	}
+	fmt.Println(data)
+	// fh.fs.CreateFile(context.Background(), )
+	return nil
 }

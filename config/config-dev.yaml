@@ -18,10 +18,10 @@ minio:
 kafka:
   host: localhost:9092
   group: metadata-group
-  timeout: 5000
+  timeout: 10000
   autocommit: true
   offsetstore: false
-  commitinterval: 5000
+  commitinterval: 10000
   topic: metadata-topic
 
   

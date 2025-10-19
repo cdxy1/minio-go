@@ -43,9 +43,10 @@ func (c *Consumer) Start() {
 		if c.stop {
 			break
 		}
-		kafkaMsg, err := c.consumer.ReadMessage(7000)
+		kafkaMsg, err := c.consumer.ReadMessage(-1)
 		if err != nil {
 			println(err.Error())
+			continue
 		}
 		if kafkaMsg == nil {
 			continue

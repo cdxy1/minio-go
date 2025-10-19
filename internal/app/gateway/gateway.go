@@ -3,6 +3,7 @@ package gateway
 import (
 	"github.com/gin-gonic/gin"
 
+	"github.com/cdxy1/go-file-storage/internal/infra/kafka/consumer"
 	"github.com/cdxy1/go-file-storage/internal/infra/kafka/producer"
 	"github.com/cdxy1/go-file-storage/internal/repo"
 	"github.com/cdxy1/go-file-storage/internal/routes/http"
@@ -28,8 +29,14 @@ func NewApp() *gin.Engine {
 		panic("kafka error")
 	}
 
-	http.NewMetadataHandler(r, &fs)
+	handler := http.NewMetadataHandler(r, &fs)
 	http.NewFileHandler(r, prod)
+
+	cons, err := consumer.NewConsumer(handler)
+	if err != nil {
+		panic("kafka not working")
+	}
+	go cons.Start()
 
 	return r
 }
