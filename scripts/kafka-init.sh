@@ -7,4 +7,4 @@ sleep 2
   --bootstrap-server localhost:9092 \
   --replication-factor 1 \
   --partitions 3 \
-  --topic my-topic
+  --topic metadata-topic
