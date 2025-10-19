@@ -9,10 +9,11 @@ import (
 
 	"github.com/cdxy1/go-file-storage/internal/grpc/file"
 	grpcclient "github.com/cdxy1/go-file-storage/internal/infra/grpc_client"
+	"github.com/cdxy1/go-file-storage/internal/infra/kafka/producer"
 	"github.com/cdxy1/go-file-storage/internal/lib"
 )
 
-func NewFileHandler(r *gin.Engine) {
+func NewFileHandler(r *gin.Engine, producer *producer.Producer) {
 	client, err := grpcclient.NewFileGrpcClient()
 	if err != nil {
 		println(err.Error())
@@ -25,10 +26,9 @@ func NewFileHandler(r *gin.Engine) {
 			Download(c, client)
 		})
 		file.POST("upload", func(c *gin.Context) {
-			Upload(c, client)
+			Upload(c, client, producer)
 		})
 	}
-
 }
 
 func Download(c *gin.Context, client file.FileServiceClient) {
@@ -45,7 +45,7 @@ func Download(c *gin.Context, client file.FileServiceClient) {
 	c.Data(http.StatusOK, "application/octet-stream", data)
 }
 
-func Upload(c *gin.Context, client file.FileServiceClient) {
+func Upload(c *gin.Context, client file.FileServiceClient, producer *producer.Producer) {
 
 	fileHeader, err := c.FormFile("file")
 	if err != nil {
@@ -59,7 +59,17 @@ func Upload(c *gin.Context, client file.FileServiceClient) {
 		return
 	}
 	defer fileData.Close()
-	lib.ExtractMetadata(fileHeader)
+
+	msg, err := lib.ExtractMetadata(fileHeader)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	if err := producer.Produce(msg); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
 	data, err := io.ReadAll(fileData)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})

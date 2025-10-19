@@ -6,7 +6,7 @@ APP2_NAME = gateway
 
 
 up:
-	docker compose up -d
+	docker compose up -d && docker exec kafka sh /kafka-init.sh
 .PHONY: up
 
 down:

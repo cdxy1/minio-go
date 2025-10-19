@@ -27,13 +27,15 @@ func NewProducer() (*Producer, error) {
 	return &Producer{producer: p}, nil
 }
 
-func (p *Producer) Produce(msg, topic string) error {
+func (p *Producer) Produce(msg []byte) error {
+	cfg := config.GetConfig()
+
 	kafkaMsg := &kafka.Message{
 		TopicPartition: kafka.TopicPartition{
-			Topic:     &topic,
+			Topic:     &cfg.Kafka.Topic,
 			Partition: kafka.PartitionAny,
 		},
-		Value: []byte(msg),
+		Value: msg,
 		Key:   nil,
 	}
 	kafkaChan := make(chan kafka.Event)

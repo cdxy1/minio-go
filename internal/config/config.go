@@ -42,6 +42,7 @@ type KafkaConfig struct {
 	AutoCommit     bool
 	OffsetStore    bool
 	CommitInterval int
+	Topic          string
 }
 
 type LoggerConfig struct {

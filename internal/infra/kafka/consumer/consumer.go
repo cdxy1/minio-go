@@ -32,7 +32,7 @@ func NewConsumer(handler Handler) (*Consumer, error) {
 		return nil, err
 	}
 
-	if err := c.Subscribe("some-topic", nil); err != nil {
+	if err := c.Subscribe(cfg.Kafka.Topic, nil); err != nil {
 		return nil, err
 	}
 	return &Consumer{consumer: c, handler: handler}, nil
