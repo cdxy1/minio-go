@@ -47,6 +47,5 @@ func CreateBucket(client *minio.Client, bucketName string) error {
 			return err
 		}
 	}
-
 	return nil
 }

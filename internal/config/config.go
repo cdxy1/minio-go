@@ -51,13 +51,11 @@ type LoggerConfig struct {
 
 func GetConfig() *Config {
 	v, err := LoadConfig("config-dev", "yaml")
-
 	if err != nil {
 		log.Fatalf("Unable to load config: %v", err)
 	}
 
 	cfg, err := ParseConfig(v)
-
 	if err != nil {
 		log.Fatalf("Unable to parse config: %v", err)
 	}

@@ -14,7 +14,6 @@ type File struct {
 
 func NewFileRepo() (*File, error) {
 	ms, err := ms.NewMinio()
-
 	if err != nil {
 		return nil, err
 	}
@@ -24,7 +23,6 @@ func NewFileRepo() (*File, error) {
 
 func (f *File) Put(ctx context.Context, objName string, reader io.Reader, size int64) error {
 	_, err := f.mc.MinioClient.PutObject(ctx, f.mc.BucketName, objName, reader, size, minio.PutObjectOptions{ContentType: "application/octet-stream"})
-
 	if err != nil {
 		return err
 	}
@@ -34,7 +32,6 @@ func (f *File) Put(ctx context.Context, objName string, reader io.Reader, size i
 
 func (f *File) GetByName(ctx context.Context, objName string) (*minio.Object, error) {
 	obj, err := f.mc.MinioClient.GetObject(ctx, f.mc.BucketName, objName, minio.GetObjectOptions{})
-
 	if err != nil {
 		return nil, err
 	}

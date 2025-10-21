@@ -13,7 +13,6 @@ type MetadataService struct {
 
 func (fs *MetadataService) GetFile(ctx context.Context, id int) (*entity.Metadata, error) {
 	f, err := fs.Repo.GetByID(ctx, id)
-
 	if err != nil {
 		println(err.Error())
 		return nil, err

@@ -29,15 +29,14 @@ func NewMetadataHandler(r *gin.Engine, fs *service.MetadataService) *MetadataHan
 
 func (fh *MetadataHandler) Find(c *gin.Context) {
 	idPath := c.Param("id")
-	id, err := strconv.Atoi(idPath)
 
+	id, err := strconv.Atoi(idPath)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid param"})
 		return
 	}
 
 	res, err := fh.fs.GetFile(c, id)
-
 	if err != nil {
 		c.JSON(http.StatusNotFound, gin.H{"error": "not found"})
 		return
@@ -52,6 +51,7 @@ func (fh *MetadataHandler) HandleMessage(msg []byte, offset kafka.Offset) error 
 		println("fuyegwiugyfewuhygewfefwuihyg")
 		return err
 	}
+	
 	fmt.Println(data)
 	// fh.fs.CreateFile(context.Background(), )
 	return nil

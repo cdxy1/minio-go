@@ -35,7 +35,6 @@ func Download(c *gin.Context, client file.FileServiceClient) {
 	fileId := c.Param("id")
 
 	resp, err := client.DownloadFile(c, &file.DownloadFileRequest{Name: fileId})
-
 	if err != nil {
 		c.JSON(http.StatusBadRequest, err.Error())
 	}
@@ -65,6 +64,7 @@ func Upload(c *gin.Context, client file.FileServiceClient, producer *producer.Pr
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
+
 	if err := producer.Produce(msg); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
@@ -81,5 +81,6 @@ func Upload(c *gin.Context, client file.FileServiceClient, producer *producer.Pr
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
+
 	c.JSON(http.StatusOK, resp.Name)
 }

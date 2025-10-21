@@ -17,7 +17,6 @@ func NewFileHandler(svc *service.FileService) *FileHandler {
 
 func (fh *FileHandler) UploadFile(ctx context.Context, req *UploadFileRequest) (*UploadFileResponse, error) {
 	name, err := fh.svc.UploadFile(ctx, req.Name, req.Data)
-
 	if err != nil {
 		return nil, err
 	}
@@ -27,7 +26,6 @@ func (fh *FileHandler) UploadFile(ctx context.Context, req *UploadFileRequest) (
 
 func (fh *FileHandler) DownloadFile(ctx context.Context, req *DownloadFileRequest) (*DownloadFileResponse, error) {
 	obj, err := fh.svc.DownloadFile(ctx, req.Name)
-
 	if err != nil {
 		return nil, err
 	}

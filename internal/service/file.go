@@ -18,14 +18,12 @@ func NewFileService(repo *repo.File) *FileService {
 
 func (fs *FileService) DownloadFile(ctx context.Context, objName string) ([]byte, error) {
 	obj, err := fs.Repo.GetByName(ctx, objName)
-
 	if err != nil {
 		return nil, err
 	}
 	defer obj.Close()
 
 	data, err := io.ReadAll(obj)
-
 	if err != nil {
 		println(obj, err.Error())
 		return nil, err
