@@ -11,8 +11,8 @@ type MetadataService struct {
 	Repo *repo.Metadata
 }
 
-func (fs *MetadataService) GetFile(ctx context.Context, id string) (*entity.Metadata, error) {
-	f, err := fs.Repo.GetByID(ctx, id)
+func (ms *MetadataService) GetById(ctx context.Context, id string) (*entity.Metadata, error) {
+	f, err := ms.Repo.GetByID(ctx, id)
 	if err != nil {
 		println(err.Error())
 		return nil, err
@@ -21,9 +21,18 @@ func (fs *MetadataService) GetFile(ctx context.Context, id string) (*entity.Meta
 	return f, nil
 }
 
-func (fs *MetadataService) CreateFile(ctx context.Context, u *entity.Metadata) error {
-	if err := fs.Repo.Create(ctx, u); err != nil {
+func (ms *MetadataService) CreateFile(ctx context.Context, u *entity.Metadata) error {
+	if err := ms.Repo.Create(ctx, u); err != nil {
 		return err
 	}
 	return nil
+}
+
+func (ms *MetadataService) GetAll(ctx context.Context) ([]entity.Metadata, error) {
+	sl, err := ms.Repo.GetAll(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	return sl, nil
 }

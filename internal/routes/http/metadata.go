@@ -40,5 +40,3 @@ func (fh *MetadataHandler) Find(c *gin.Context) {
 
 	c.JSON(http.StatusOK, res)
 }
-
-

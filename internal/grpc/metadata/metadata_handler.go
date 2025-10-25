@@ -19,13 +19,43 @@ func NewMetadataHandler(svc *service.MetadataService) *MetadataHandler {
 }
 
 func (mh *MetadataHandler) GetAll(ctx context.Context) (*FilesMetadataResponse, error) {
+	var sl []*FileMetadataResponse
 
-	return &FilesMetadataResponse{Files: []*FileMetadataResponse{}}, nil
+	rows, err := mh.svc.Repo.GetAll(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	for _, v := range rows {
+		fmr := &FileMetadataResponse{
+			Id:        v.Id,
+			Name:      v.Name,
+			Url:       v.Url,
+			Size:      v.Size,
+			Type:      v.Type,
+			CreatedAt: v.CreatedAt.String(),
+		}
+
+		sl = append(sl, fmr)
+	}
+
+	return &FilesMetadataResponse{Files: sl}, nil
 }
 
 func (mh *MetadataHandler) GetById(ctx context.Context, req *FileMetadataRequest) (*FileMetadataResponse, error) {
+	row, err := mh.svc.GetById(ctx, req.Id)
+	if err != nil {
+		return nil, err
+	}
 
-	return  &FileMetadataResponse{}, nil
+	return &FileMetadataResponse{
+		Id:        row.Id,
+		Name:      row.Name,
+		Url:       row.Url,
+		Size:      row.Size,
+		Type:      row.Type,
+		CreatedAt: row.CreatedAt.String(),
+	}, nil
 }
 
 func (fh *MetadataHandler) HandleMessage(msg []byte, offset kafka.Offset) error {
