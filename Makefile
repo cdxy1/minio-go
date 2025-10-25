@@ -29,5 +29,5 @@ build: proto
 	@echo "Building service >>>>>>>>>"
 	go build -o $(BIN_DIR)/$(FILE_SERVICE) ./cmd/file_service/main.go
 	go build -o $(BIN_DIR)/$(METADATA_SERVICE) ./cmd/metadata_service/main.go
-# 	go build -o $(BIN_DIR)/$(GATEWAY_SERVICE) ./cmd/gateway/main.go
+	go build -o $(BIN_DIR)/$(GATEWAY_SERVICE) ./cmd/gateway/main.go
 .PHONY: build

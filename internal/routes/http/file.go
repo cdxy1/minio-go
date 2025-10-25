@@ -9,10 +9,9 @@ import (
 
 	"github.com/cdxy1/go-file-storage/internal/grpc/file"
 	grpcclient "github.com/cdxy1/go-file-storage/internal/infra/grpc_client"
-	"github.com/cdxy1/go-file-storage/internal/infra/kafka/producer"
 )
 
-func NewFileHandler(r *gin.Engine, producer *producer.Producer) {
+func NewFileHandler(r *gin.Engine) {
 	client, err := grpcclient.NewFileGrpcClient()
 	if err != nil {
 		println(err.Error())
@@ -21,11 +20,11 @@ func NewFileHandler(r *gin.Engine, producer *producer.Producer) {
 
 	file := r.Group("/file")
 	{
-		file.GET(":id/download", func(c *gin.Context) {
+		file.GET(":id", func(c *gin.Context) {
 			Download(c, client)
 		})
 		file.POST("upload", func(c *gin.Context) {
-			Upload(c, client, producer)
+			Upload(c, client)
 		})
 	}
 }
@@ -43,7 +42,7 @@ func Download(c *gin.Context, client file.FileServiceClient) {
 	c.Data(http.StatusOK, "application/octet-stream", data)
 }
 
-func Upload(c *gin.Context, client file.FileServiceClient, producer *producer.Producer) {
+func Upload(c *gin.Context, client file.FileServiceClient) {
 
 	fileHeader, err := c.FormFile("file")
 	if err != nil {

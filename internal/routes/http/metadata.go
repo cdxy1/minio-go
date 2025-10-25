@@ -1,42 +1,59 @@
 package http
 
 import (
-	// 	"net/http"
-	// 	"strconv"
+	"encoding/json"
+	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"google.golang.org/protobuf/types/known/emptypb"
 
-	"github.com/cdxy1/go-file-storage/internal/service"
+	"github.com/cdxy1/go-file-storage/internal/grpc/metadata"
+	grpcclient "github.com/cdxy1/go-file-storage/internal/infra/grpc_client"
 )
 
-type MetadataHandler struct {
-	fs *service.MetadataService
-}
-
-func NewMetadataHandler(r *gin.Engine, fs *service.MetadataService) *MetadataHandler {
-	md := &MetadataHandler{fs}
-
-	// 	metadata := r.Group("/metadata")
-	// 	{
-	// 		metadata.GET(":id", md.Find)
-	// 	}
-	return md
-}
-
-// func (fh *MetadataHandler) Find(c *gin.Context) {
-// 	idPath := c.Param("id")
-
-// 	id, err := strconv.Atoi(idPath)
-// 	if err != nil {
-// 		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid param"})
-// 		return
-// 	}
-
-// 	res, err := fh.fs.GetFile(c, id)
-// 	if err != nil {
-// 		c.JSON(http.StatusNotFound, gin.H{"error": "not found"})
-// 		return
-// 	}
-
-// 	c.JSON(http.StatusOK, res)
+// type MetadataHandler struct {
+// 	fs *service.MetadataService
 // }
+
+func NewMetadataHandler(r *gin.Engine) {
+	client, err := grpcclient.NewMetadataGprcClient()
+	if err != nil {
+		println(err.Error())
+		panic("blabla")
+	}
+
+	metadata := r.Group("/metadata")
+	{
+		metadata.GET(":id", func(ctx *gin.Context) {
+			FindById(ctx, client)
+		})
+		metadata.GET("", func(ctx *gin.Context) {
+			GetAll(ctx, client)
+		})
+	}
+	// return md
+}
+
+func FindById(c *gin.Context, client metadata.MetadataServiceClient) {
+	idPath := c.Param("id")
+
+	res, err := client.GetById(c, &metadata.FileMetadataRequest{Id: idPath})
+	if err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": "not found"})
+		return
+	}
+
+	json.Marshal(res)
+
+	c.JSON(http.StatusOK, res.String())
+}
+
+func GetAll(c *gin.Context, client metadata.MetadataServiceClient) {
+	res, err := client.GetAll(c, &emptypb.Empty{})
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, res.String())
+}
