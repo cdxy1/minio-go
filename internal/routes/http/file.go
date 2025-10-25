@@ -18,14 +18,17 @@ func NewFileHandler(r *gin.Engine) {
 		panic("blabla")
 	}
 
-	file := r.Group("/file")
+	v1 := r.Group("/api/v1")
 	{
-		file.GET(":id", func(c *gin.Context) {
-			Download(c, client)
-		})
-		file.POST("upload", func(c *gin.Context) {
-			Upload(c, client)
-		})
+		file := v1.Group("/file")
+		{
+			file.GET(":id", func(c *gin.Context) {
+				Download(c, client)
+			})
+			file.POST("upload", func(c *gin.Context) {
+				Upload(c, client)
+			})
+		}
 	}
 }
 

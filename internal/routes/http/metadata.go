@@ -11,10 +11,6 @@ import (
 	grpcclient "github.com/cdxy1/go-file-storage/internal/infra/grpc_client"
 )
 
-// type MetadataHandler struct {
-// 	fs *service.MetadataService
-// }
-
 func NewMetadataHandler(r *gin.Engine) {
 	client, err := grpcclient.NewMetadataGprcClient()
 	if err != nil {
@@ -22,16 +18,18 @@ func NewMetadataHandler(r *gin.Engine) {
 		panic("blabla")
 	}
 
-	metadata := r.Group("/metadata")
+	v1 := r.Group("/api/v1")
 	{
-		metadata.GET(":id", func(ctx *gin.Context) {
-			FindById(ctx, client)
-		})
-		metadata.GET("", func(ctx *gin.Context) {
-			GetAll(ctx, client)
-		})
+		metadata := v1.Group("/metadata")
+		{
+			metadata.GET(":id", func(ctx *gin.Context) {
+				FindById(ctx, client)
+			})
+			metadata.GET("", func(ctx *gin.Context) {
+				GetAll(ctx, client)
+			})
+		}
 	}
-	// return md
 }
 
 func FindById(c *gin.Context, client metadata.MetadataServiceClient) {
