@@ -1,16 +1,16 @@
 package lib
 
 import (
-	"encoding/json"
-	"mime/multipart"
 	"time"
+	"net/http"
+	"encoding/json"
 
 	"github.com/google/uuid"
 
 	"github.com/cdxy1/go-file-storage/internal/entity"
 )
 
-func ExtractMetadata(fileHeader *multipart.FileHeader) ([]byte, error) {
+func ExtractMetadata(name string, fileData []byte) ([]byte, error) {
 	newUUID, err := uuid.NewUUID()
 	if err != nil {
 		return nil, err
@@ -18,10 +18,10 @@ func ExtractMetadata(fileHeader *multipart.FileHeader) ([]byte, error) {
 
 	metadata := &entity.Metadata{
 		Id:        newUUID.String(),
-		Name:      fileHeader.Filename,
+		Name:      name,
 		Url:       "placeholder",
-		Size:      fileHeader.Size,
-		Type:      fileHeader.Header.Get("Content-Type"),
+		Size:      int64(len(fileData)),
+		Type:      http.DetectContentType(fileData),
 		CreatedAt: time.Now(),
 	}
 
