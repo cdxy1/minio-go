@@ -3,19 +3,19 @@ package file
 import (
 	"context"
 
+	"github.com/cdxy1/go-file-storage/internal/infra/kafka/producer"
 	"github.com/cdxy1/go-file-storage/internal/lib"
 	"github.com/cdxy1/go-file-storage/internal/service"
-	"github.com/cdxy1/go-file-storage/internal/infra/kafka/producer"
 )
 
 type FileHandler struct {
 	UnimplementedFileServiceServer
-	svc *service.FileService
+	svc           *service.FileService
 	kafkaProducer *producer.Producer
 }
 
-func NewFileHandler(svc *service.FileService) *FileHandler {
-	return &FileHandler{svc: svc}
+func NewFileHandler(svc *service.FileService, kafka *producer.Producer) *FileHandler {
+	return &FileHandler{svc: svc, kafkaProducer: kafka}
 }
 
 func (fh *FileHandler) UploadFile(ctx context.Context, req *UploadFileRequest) (*UploadFileResponse, error) {

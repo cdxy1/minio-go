@@ -1,9 +1,9 @@
 package service
 
 import (
-	"io"
 	"bytes"
 	"context"
+	"io"
 
 	"github.com/cdxy1/go-file-storage/internal/repo"
 )

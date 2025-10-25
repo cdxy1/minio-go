@@ -6,6 +6,7 @@ import (
 	"google.golang.org/grpc"
 
 	"github.com/cdxy1/go-file-storage/internal/grpc/file"
+	"github.com/cdxy1/go-file-storage/internal/infra/kafka/producer"
 	"github.com/cdxy1/go-file-storage/internal/repo"
 	"github.com/cdxy1/go-file-storage/internal/service"
 )
@@ -22,8 +23,12 @@ func NewApp() {
 	}
 
 	svc := service.NewFileService(r)
+	kafka, err := producer.NewProducer()
+	if err != nil {
+		panic("kafka not working")
+	}
 
-	handler := file.NewFileHandler(svc)
+	handler := file.NewFileHandler(svc, kafka)
 
 	grpcSrv := grpc.NewServer()
 

@@ -5,9 +5,10 @@ import (
 
 	"google.golang.org/grpc"
 
+	"github.com/cdxy1/go-file-storage/internal/grpc/metadata"
+	"github.com/cdxy1/go-file-storage/internal/infra/kafka/consumer"
 	"github.com/cdxy1/go-file-storage/internal/repo"
 	"github.com/cdxy1/go-file-storage/internal/service"
-	"github.com/cdxy1/go-file-storage/internal/grpc/metadata"
 )
 
 func NewApp() {
@@ -28,6 +29,12 @@ func NewApp() {
 	grpcSrv := grpc.NewServer()
 
 	metadata.RegisterMetadataServiceServer(grpcSrv, handler)
+
+	cons, err := consumer.NewConsumer(handler)
+	if err != nil {
+		panic("kafka not working")
+	}
+	go cons.Start()
 
 	if err := grpcSrv.Serve(lis); err != nil {
 		panic("grpc server not started")

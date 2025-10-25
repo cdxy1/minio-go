@@ -66,5 +66,9 @@ func (fh *MetadataHandler) HandleMessage(msg []byte, offset kafka.Offset) error 
 		return err
 	}
 
+	if err := fh.svc.CreateFile(context.Background(), &data); err != nil {
+		return err
+	}
+
 	return nil
 }
