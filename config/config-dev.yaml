@@ -6,7 +6,7 @@ postgres:
   port: 5432
   user: admin
   password: 1234
-  database: test
+  database: storage
 logger:
   env: local
 minio:

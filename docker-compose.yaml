@@ -5,7 +5,7 @@ services:
     environment:
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: 1234
-      POSTGRES_DB: test
+      POSTGRES_DB: storage
     volumes:
       - postgres_data:/var/lib/postgresql/data
     ports:
