@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"google.golang.org/protobuf/encoding/protojson"
 	"google.golang.org/protobuf/types/known/emptypb"
 
 	"github.com/cdxy1/go-file-storage/internal/grpc/metadata"
@@ -40,9 +41,21 @@ func FindById(c *gin.Context, client metadata.MetadataServiceClient) {
 		return
 	}
 
-	json.Marshal(res)
+	data, err := protojson.MarshalOptions{
+		EmitUnpopulated: true,
+	}.Marshal(res)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
 
-	c.JSON(http.StatusOK, res.String())
+	var obj map[string]interface{}
+	if err := json.Unmarshal(data, &obj); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, obj)
 }
 
 func GetAll(c *gin.Context, client metadata.MetadataServiceClient) {
@@ -52,5 +65,19 @@ func GetAll(c *gin.Context, client metadata.MetadataServiceClient) {
 		return
 	}
 
-	c.JSON(http.StatusOK, res.String())
+	data, err := protojson.MarshalOptions{
+		EmitUnpopulated: true,
+	}.Marshal(res)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	var obj map[string]interface{}
+	if err := json.Unmarshal(data, &obj); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, obj)
 }
