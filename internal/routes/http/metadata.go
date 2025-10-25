@@ -1,15 +1,11 @@
 package http
 
 import (
-	"encoding/json"
-	"fmt"
 	"net/http"
 	"strconv"
 
-	"github.com/confluentinc/confluent-kafka-go/v2/kafka"
 	"github.com/gin-gonic/gin"
 
-	"github.com/cdxy1/go-file-storage/internal/entity"
 	"github.com/cdxy1/go-file-storage/internal/service"
 )
 
@@ -45,14 +41,4 @@ func (fh *MetadataHandler) Find(c *gin.Context) {
 	c.JSON(http.StatusOK, res)
 }
 
-func (fh *MetadataHandler) HandleMessage(msg []byte, offset kafka.Offset) error {
-	data := entity.Metadata{}
-	if err := json.Unmarshal(msg, &data); err != nil {
-		println("fuyegwiugyfewuhygewfefwuihyg")
-		return err
-	}
-	
-	fmt.Println(data)
-	// fh.fs.CreateFile(context.Background(), )
-	return nil
-}
+
