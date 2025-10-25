@@ -4,10 +4,11 @@ import (
 	"context"
 	"encoding/json"
 
+	"google.golang.org/protobuf/types/known/emptypb"
+
 	"github.com/cdxy1/go-file-storage/internal/entity"
 	"github.com/cdxy1/go-file-storage/internal/service"
 	"github.com/confluentinc/confluent-kafka-go/v2/kafka"
-	"google.golang.org/protobuf/types/known/emptypb"
 )
 
 type MetadataHandler struct {

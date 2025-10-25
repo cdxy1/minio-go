@@ -1,8 +1,9 @@
 .DEFAULT_GOAL := build
 
 BIN_DIR = ./bin
-APP1_NAME = file
-APP2_NAME = gateway
+FILE_SERVICE = file
+METADATA_SERVICE = metadata
+GATEWAY_SERVICE = gateway
 
 
 up:
@@ -27,6 +28,7 @@ proto: vet
 
 build: proto
 	@echo "Building service >>>>>>>>>"
-	go build -o $(BIN_DIR)/$(APP1_NAME) ./cmd/file_service/main.go
-	go build -o $(BIN_DIR)/$(APP2_NAME) ./cmd/gateway/main.go
+	go build -o $(BIN_DIR)/$(FILE_SERVICE) ./cmd/file_service/main.go
+	go build -o $(BIN_DIR)/$(FILE_SERVICE) ./cmd/metadata_service/main.go
+# 	go build -o $(BIN_DIR)/$(GATEWAY_SERVICE) ./cmd/gateway/main.go
 .PHONY: build

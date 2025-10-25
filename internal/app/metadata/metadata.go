@@ -9,11 +9,6 @@ import (
 	"google.golang.org/grpc"
 )
 
-// import (
-// 	"github.com/cdxy1/go-file-storage/internal/infra/kafka/consumer"
-// 	"github.com/cdxy1/go-file-storage/internal/routes/http"
-// )
-
 func NewApp() {
 	lis, err := net.Listen("tcp", ":50052")
 	if err != nil {

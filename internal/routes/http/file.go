@@ -10,7 +10,6 @@ import (
 	"github.com/cdxy1/go-file-storage/internal/grpc/file"
 	grpcclient "github.com/cdxy1/go-file-storage/internal/infra/grpc_client"
 	"github.com/cdxy1/go-file-storage/internal/infra/kafka/producer"
-	"github.com/cdxy1/go-file-storage/internal/lib"
 )
 
 func NewFileHandler(r *gin.Engine, producer *producer.Producer) {
@@ -59,16 +58,16 @@ func Upload(c *gin.Context, client file.FileServiceClient, producer *producer.Pr
 	}
 	defer fileData.Close()
 
-	msg, err := lib.ExtractMetadata(fileHeader)
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-		return
-	}
+	// msg, err := lib.ExtractMetadata(fileHeader)
+	// if err != nil {
+	// 	c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+	// 	return
+	// }
 
-	if err := producer.Produce(msg); err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-		return
-	}
+	// if err := producer.Produce(msg); err != nil {
+	// 	c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+	// 	return
+	// }
 
 	data, err := io.ReadAll(fileData)
 	if err != nil {
