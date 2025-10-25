@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+package metadta;
+
+option go_package = "/grpc/metadata;metadata";
+
+import "google/protobuf/empty.proto";
+
+service MetadataService {
+    rpc GetAll(google.protobuf.Empty) returns (FilesMetadataResponse);
+    rpc GetById(FileMetadataRequest) returns (FileMetadataResponse);
+}
+
+message FilesMetadataResponse {
+    repeated FileMetadataResponse files = 1;
+}
+
+message FileMetadataResponse {
+    string id = 1;
+    string name = 2;
+    string url = 3;
+    int64 size = 4;
+    string type = 5;
+    string CreatedAt = 6;
+}
+
+message FileMetadataRequest {
+    string id = 1;
+}
+
+
