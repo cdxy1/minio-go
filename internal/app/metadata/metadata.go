@@ -3,10 +3,11 @@ package metadata
 import (
 	"net"
 
-	"github.com/cdxy1/go-file-storage/internal/grpc/metadata"
+	"google.golang.org/grpc"
+
 	"github.com/cdxy1/go-file-storage/internal/repo"
 	"github.com/cdxy1/go-file-storage/internal/service"
-	"google.golang.org/grpc"
+	"github.com/cdxy1/go-file-storage/internal/grpc/metadata"
 )
 
 func NewApp() {
