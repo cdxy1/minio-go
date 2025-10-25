@@ -2,12 +2,24 @@ package repo
 
 import (
 	"context"
-	"github.com/cdxy1/go-file-storage/internal/entity"
+
 	"github.com/jackc/pgx/v5/pgxpool"
+
+	"github.com/cdxy1/go-file-storage/internal/entity"
+	"github.com/cdxy1/go-file-storage/internal/storage/postgres"
 )
 
 type Metadata struct {
 	Db *pgxpool.Pool
+}
+
+func NewMetadataRepo() (*Metadata, error) {
+	db, err := postgres.NewPostgres()
+	if err != nil {
+		return nil, err
+	}
+
+	return &Metadata{Db: db}, nil
 }
 
 func (md *Metadata) Create(ctx context.Context, u *entity.Metadata) error {

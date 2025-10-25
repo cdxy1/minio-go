@@ -1,12 +1,39 @@
 package metadata
 
+import (
+	"net"
+
+	"github.com/cdxy1/go-file-storage/internal/grpc/metadata"
+	"github.com/cdxy1/go-file-storage/internal/repo"
+	"github.com/cdxy1/go-file-storage/internal/service"
+	"google.golang.org/grpc"
+)
+
 // import (
 // 	"github.com/cdxy1/go-file-storage/internal/infra/kafka/consumer"
 // 	"github.com/cdxy1/go-file-storage/internal/routes/http"
 // )
 
-// func NewApp(){
-// 	handler := http.
+func NewApp() {
+	lis, err := net.Listen("tcp", ":50052")
+	if err != nil {
+		panic("metadata grpc server not started")
+	}
 
-// 	consumer.NewConsumer()
-// }
+	r, err := repo.NewMetadataRepo()
+	if err != nil {
+		panic("postgres error")
+	}
+
+	svc := service.NewMetadataService(r)
+
+	handler := metadata.NewMetadataHandler(svc)
+
+	grpcSrv := grpc.NewServer()
+
+	metadata.RegisterMetadataServiceServer(grpcSrv, handler)
+
+	if err := grpcSrv.Serve(lis); err != nil {
+		panic("grpc server not started")
+	}
+}

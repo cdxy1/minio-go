@@ -11,6 +11,10 @@ type MetadataService struct {
 	Repo *repo.Metadata
 }
 
+func NewMetadataService(repo *repo.Metadata) *MetadataService {
+	return &MetadataService{Repo: repo}
+}
+
 func (ms *MetadataService) GetById(ctx context.Context, id string) (*entity.Metadata, error) {
 	f, err := ms.Repo.GetByID(ctx, id)
 	if err != nil {

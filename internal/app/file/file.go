@@ -3,25 +3,25 @@ package file
 import (
 	"net"
 
+	"google.golang.org/grpc"
+
 	"github.com/cdxy1/go-file-storage/internal/grpc/file"
 	"github.com/cdxy1/go-file-storage/internal/repo"
 	"github.com/cdxy1/go-file-storage/internal/service"
-	"google.golang.org/grpc"
 )
 
 func NewApp() {
 	lis, err := net.Listen("tcp", ":50051")
-
 	if err != nil {
-		panic("Grpc server not started")
+		panic("grpc server not started")
 	}
 
 	r, err := repo.NewFileRepo()
-	svc := service.NewFileService(r)
-
 	if err != nil {
 		panic("Grpc server not started")
 	}
+
+	svc := service.NewFileService(r)
 
 	handler := file.NewFileHandler(svc)
 

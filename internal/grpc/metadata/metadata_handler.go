@@ -7,6 +7,7 @@ import (
 	"github.com/cdxy1/go-file-storage/internal/entity"
 	"github.com/cdxy1/go-file-storage/internal/service"
 	"github.com/confluentinc/confluent-kafka-go/v2/kafka"
+	"google.golang.org/protobuf/types/known/emptypb"
 )
 
 type MetadataHandler struct {
@@ -18,7 +19,7 @@ func NewMetadataHandler(svc *service.MetadataService) *MetadataHandler {
 	return &MetadataHandler{svc: svc}
 }
 
-func (mh *MetadataHandler) GetAll(ctx context.Context) (*FilesMetadataResponse, error) {
+func (mh *MetadataHandler) GetAll(ctx context.Context, _ *emptypb.Empty) (*FilesMetadataResponse, error) {
 	var sl []*FileMetadataResponse
 
 	rows, err := mh.svc.Repo.GetAll(ctx)
