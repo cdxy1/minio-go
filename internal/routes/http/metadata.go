@@ -14,7 +14,6 @@ import (
 func NewMetadataHandler(r *gin.Engine) {
 	client, err := grpcclient.NewMetadataGprcClient()
 	if err != nil {
-		println(err.Error())
 		panic("blabla")
 	}
 

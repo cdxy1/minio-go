@@ -1,0 +1,251 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "File Storage API",
+    "version": "1.0",
+    "description": "API для работы с файлами и их метаданными"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8080/api/v1",
+      "description": "Локальный сервер"
+    }
+  ],
+  "tags": [
+    {
+      "name": "file",
+      "description": "Операции с файлами (upload/download)"
+    },
+    {
+      "name": "metadata",
+      "description": "Операции с метаданными файлов"
+    }
+  ],
+  "paths": {
+    "/file/{id}": {
+      "get": {
+        "tags": ["file"],
+        "summary": "Скачать файл по ID",
+        "description": "Получить бинарные данные файла по его идентификатору",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID файла"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Файл успешно получен",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Ошибка запроса",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Bad Request"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/file/upload": {
+      "post": {
+        "tags": ["file"],
+        "summary": "Загрузить файл",
+        "description": "Загружает файл на сервер",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary",
+                    "description": "Файл для загрузки"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Файл успешно загружен",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "example": "example.txt"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Ошибка запроса (например, файл не передан)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Bad Request"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Ошибка сервера при обработке файла",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Internal Server Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/metadata/{id}": {
+      "get": {
+        "tags": ["metadata"],
+        "summary": "Получить метаданные по ID",
+        "description": "Возвращает информацию о файле по его идентификатору",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID файла"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Метаданные файла успешно получены",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                    "id": "123",
+                    "name": "example.txt",
+                    "size": 1024,
+                    "created_at": "2025-10-26T12:00:00Z"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Файл не найден",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "not found"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/metadata": {
+      "get": {
+        "tags": ["metadata"],
+        "summary": "Получить все метаданные",
+        "description": "Возвращает список всех файлов и их метаданных",
+        "responses": {
+          "200": {
+            "description": "Список метаданных файлов",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "example": "123"
+                      },
+                      "name": {
+                        "type": "string",
+                        "example": "example.txt"
+                      },
+                      "size": {
+                        "type": "integer",
+                        "example": 1024
+                      },
+                      "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2025-10-26T12:00:00Z"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Ошибка сервера при получении данных",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Internal Server Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

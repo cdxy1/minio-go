@@ -14,7 +14,6 @@ import (
 func NewFileHandler(r *gin.Engine) {
 	client, err := grpcclient.NewFileGrpcClient()
 	if err != nil {
-		println(err.Error())
 		panic("blabla")
 	}
 
