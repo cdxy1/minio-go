@@ -11,7 +11,7 @@ type MetadataService struct {
 	Repo *repo.Metadata
 }
 
-func (fs *MetadataService) GetFile(ctx context.Context, id int) (*entity.Metadata, error) {
+func (fs *MetadataService) GetFile(ctx context.Context, id string) (*entity.Metadata, error) {
 	f, err := fs.Repo.GetByID(ctx, id)
 	if err != nil {
 		println(err.Error())

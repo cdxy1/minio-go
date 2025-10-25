@@ -24,7 +24,7 @@ func (md *Metadata) Create(ctx context.Context, u *entity.Metadata) error {
 	return tx.Commit(ctx)
 }
 
-func (md *Metadata) GetByID(ctx context.Context, id int) (*entity.Metadata, error) {
+func (md *Metadata) GetByID(ctx context.Context, id string) (*entity.Metadata, error) {
 	tx, err := md.Db.Begin(ctx)
 	var f entity.Metadata
 	if err != nil {
