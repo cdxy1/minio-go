@@ -41,17 +41,18 @@ func NewPostgres(log *slog.Logger) (*pgxpool.Pool, error) {
 
 	log.Info("PostgreSQL connection established successfully")
 
-	// _, err = pool.Exec(context.Background(), `CREATE TABLE IF NOT EXISTS files (
-	// 	id SERIAL PRIMARY KEY,
-	// 	name VARCHAR(255) NOT NULL,
-	// 	url TEXT,
-	// 	created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
-	// )`)
-	// if err != nil {
-	// 	log.Error("Failed to create 'files' table", "error", err)
-	// 	return nil, err
-	// }
+	_, err = pool.Exec(context.Background(), `CREATE TABLE metadata (
+		id TEXT PRIMARY KEY,
+		name TEXT NOT NULL,
+		url TEXT,
+		size INT NOT NULL,
+		type TEXT NOT NULL,
+		created_at TIMESTAMP NOT NULL
+		);`)
+	if err != nil {
+		log.Error("Failed to create 'files' table or table already exists", "error", err)
+	}
 
-	// log.Info("Table 'files' ensured in PostgreSQL successfully")
+	log.Info("Table 'files' ensured in PostgreSQL successfully")
 	return pool, nil
 }
