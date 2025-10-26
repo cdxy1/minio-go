@@ -39,7 +39,6 @@ services:
       - backend
   postgres:
     image: postgres:alpine
-    container_name: postgres_storage
     environment:
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: 1234

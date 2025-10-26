@@ -2,6 +2,7 @@ package repo
 
 import (
 	"context"
+	"log/slog"
 
 	"github.com/jackc/pgx/v5/pgxpool"
 
@@ -10,11 +11,12 @@ import (
 )
 
 type Metadata struct {
-	Db *pgxpool.Pool
+	Db     *pgxpool.Pool
+	Logger *slog.Logger
 }
 
-func NewMetadataRepo() (*Metadata, error) {
-	db, err := postgres.NewPostgres()
+func NewMetadataRepo(logger *slog.Logger) (*Metadata, error) {
+	db, err := postgres.NewPostgres(logger)
 	if err != nil {
 		return nil, err
 	}

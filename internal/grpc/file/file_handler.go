@@ -2,6 +2,7 @@ package file
 
 import (
 	"context"
+	"log/slog"
 
 	"github.com/cdxy1/go-file-storage/internal/infra/kafka/producer"
 	"github.com/cdxy1/go-file-storage/internal/lib"
@@ -12,10 +13,11 @@ type FileHandler struct {
 	UnimplementedFileServiceServer
 	svc           *service.FileService
 	kafkaProducer *producer.Producer
+	logger        *slog.Logger
 }
 
-func NewFileHandler(svc *service.FileService, kafka *producer.Producer) *FileHandler {
-	return &FileHandler{svc: svc, kafkaProducer: kafka}
+func NewFileHandler(svc *service.FileService, kafka *producer.Producer, logger *slog.Logger) *FileHandler {
+	return &FileHandler{svc: svc, kafkaProducer: kafka, logger: logger}
 }
 
 func (fh *FileHandler) UploadFile(ctx context.Context, req *UploadFileRequest) (*UploadFileResponse, error) {
@@ -30,8 +32,10 @@ func (fh *FileHandler) UploadFile(ctx context.Context, req *UploadFileRequest) (
 	}
 
 	if err := fh.kafkaProducer.Produce(msg); err != nil {
+		fh.logger.Error("error while producing message", "message", req.Name)
 		return nil, err
 	}
+	fh.logger.Info("message successfully produced", "message", req.Name)
 
 	return &UploadFileResponse{Name: name}, nil
 }

@@ -3,6 +3,7 @@ package repo
 import (
 	"context"
 	"io"
+	"log/slog"
 
 	ms "github.com/cdxy1/go-file-storage/internal/storage/minio"
 	"github.com/minio/minio-go/v7"
@@ -12,8 +13,8 @@ type File struct {
 	mc *ms.Minio
 }
 
-func NewFileRepo() (*File, error) {
-	ms, err := ms.NewMinio()
+func NewFileRepo(logger *slog.Logger) (*File, error) {
+	ms, err := ms.NewMinio(logger)
 	if err != nil {
 		return nil, err
 	}

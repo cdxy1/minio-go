@@ -3,13 +3,15 @@ package logger
 import (
 	"log/slog"
 	"os"
+
+	"github.com/cdxy1/go-file-storage/internal/config"
 )
 
 func SetupLogger() *slog.Logger {
 	var log *slog.Logger
-	cfg := os.Getenv("env")
+	cfg := config.GetConfig()
 
-	switch cfg {
+	switch cfg.Logger.Env {
 	case "prod":
 		log = slog.New(slog.NewJSONHandler(os.Stdout, &slog.HandlerOptions{Level: slog.LevelInfo}))
 	case "dev":
