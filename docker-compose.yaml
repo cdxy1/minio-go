@@ -9,6 +9,10 @@ services:
       - metadata_service
     ports:
       - "8080:8080"
+    networks:
+      - backend
+    environment:
+      - APP_ENV=dev
   file_service:
     build:
       context: .
@@ -17,6 +21,10 @@ services:
     depends_on:
       - minio
       - kafka
+    environment:
+      - APP_ENV=dev
+    networks:
+      - backend
   metadata_service:
     build:
       context: .
@@ -25,6 +33,10 @@ services:
     depends_on:
       - postgres
       - kafka
+    environment:
+      - APP_ENV=dev
+    networks:
+      - backend
   postgres:
     image: postgres:alpine
     container_name: postgres_storage
@@ -36,10 +48,11 @@ services:
       - postgres_data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
+    networks:
+      - backend
     restart: unless-stopped
   minio:
     image: minio/minio
-    container_name: minio_storage
     environment:
       MINIO_ROOT_USER: admin123
       MINIO_ROOT_PASSWORD: admin123
@@ -49,9 +62,11 @@ services:
     ports:
       - "9000:9000"
       - "9001:9001"
+    networks:
+      - backend
     command: server --console-address ":9001" /data
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/ready"]
+      test: ["CMD-SHELL", "curl -f http://minio:9000/minio/health/ready || exit 1"]
       interval: 5s
       timeout: 3s
       retries: 5
@@ -60,11 +75,13 @@ services:
     container_name: kafka
     ports:
       - "9092:9092"
+    networks:
+      - backend
     environment:
       KAFKA_NODE_ID: 1
       KAFKA_PROCESS_ROLES: broker,controller
       KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092,CONTROLLER://0.0.0.0:9093
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
       KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
       ALLOW_PLAINTEXT_LISTENER: yes

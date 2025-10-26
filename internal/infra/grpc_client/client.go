@@ -1,15 +1,20 @@
 package grpcclient
 
 import (
+	"fmt"
+
 	"google.golang.org/grpc"
 
+	"github.com/cdxy1/go-file-storage/internal/config"
 	pbf "github.com/cdxy1/go-file-storage/internal/grpc/file"
 	pbm "github.com/cdxy1/go-file-storage/internal/grpc/metadata"
 	"google.golang.org/grpc/credentials/insecure"
 )
 
 func NewFileGrpcClient() (pbf.FileServiceClient, error) {
-	conn, err := grpc.NewClient("localhost:50051", grpc.WithTransportCredentials(insecure.NewCredentials()))
+	cfg := config.GetConfig()
+
+	conn, err := grpc.NewClient(fmt.Sprintf("%s:%s", cfg.File.Host, cfg.File.Port), grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
 		return nil, err
 	}
@@ -19,7 +24,9 @@ func NewFileGrpcClient() (pbf.FileServiceClient, error) {
 }
 
 func NewMetadataGprcClient() (pbm.MetadataServiceClient, error) {
-	conn, err := grpc.NewClient("localhost:50052", grpc.WithTransportCredentials(insecure.NewCredentials()))
+	cfg := config.GetConfig()
+
+	conn, err := grpc.NewClient(fmt.Sprintf("%s:%s", cfg.Metadata.Host, cfg.Metadata.Port), grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
 		return nil, err
 	}

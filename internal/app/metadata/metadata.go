@@ -1,10 +1,12 @@
 package metadata
 
 import (
+	"fmt"
 	"net"
 
 	"google.golang.org/grpc"
 
+	"github.com/cdxy1/go-file-storage/internal/config"
 	"github.com/cdxy1/go-file-storage/internal/grpc/metadata"
 	"github.com/cdxy1/go-file-storage/internal/infra/kafka/consumer"
 	"github.com/cdxy1/go-file-storage/internal/repo"
@@ -12,7 +14,9 @@ import (
 )
 
 func NewApp() {
-	lis, err := net.Listen("tcp", ":50052")
+	cfg := config.GetConfig()
+
+	lis, err := net.Listen("tcp", fmt.Sprintf(":%s", cfg.Metadata.Port))
 	if err != nil {
 		panic("metadata grpc server not started")
 	}

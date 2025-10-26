@@ -2,18 +2,19 @@ package config
 
 import (
 	"log"
+	"os"
 
 	"github.com/spf13/viper"
 )
 
 type Config struct {
-	Server         ServerConfig
-	Postgres       PostgresConfig
-	Logger         LoggerConfig
-	Minio          MinioConfig
-	Kafka          KafkaConfig
-	File           FileConfig
-	MetadataConfig FileConfig
+	Server   ServerConfig
+	Postgres PostgresConfig
+	Logger   LoggerConfig
+	Minio    MinioConfig
+	Kafka    KafkaConfig
+	File     FileConfig
+	Metadata FileConfig
 }
 
 type ServerConfig struct {
@@ -62,7 +63,9 @@ type LoggerConfig struct {
 }
 
 func GetConfig() *Config {
-	v, err := LoadConfig("config-dev", "yaml")
+	env := getEnv()
+
+	v, err := LoadConfig(env, "yaml")
 	if err != nil {
 		log.Fatalf("Unable to load config: %v", err)
 	}
@@ -97,4 +100,13 @@ func LoadConfig(filename, filetype string) (*viper.Viper, error) {
 	}
 
 	return v, nil
+}
+
+func getEnv() string {
+	switch os.Getenv("APP_ENV") {
+	case "dev":
+		return "config-dev"
+	default:
+		return "config-local"
+	}
 }

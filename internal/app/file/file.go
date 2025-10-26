@@ -1,10 +1,12 @@
 package file
 
 import (
+	"fmt"
 	"net"
 
 	"google.golang.org/grpc"
 
+	"github.com/cdxy1/go-file-storage/internal/config"
 	"github.com/cdxy1/go-file-storage/internal/grpc/file"
 	"github.com/cdxy1/go-file-storage/internal/infra/kafka/producer"
 	"github.com/cdxy1/go-file-storage/internal/repo"
@@ -12,7 +14,9 @@ import (
 )
 
 func NewApp() {
-	lis, err := net.Listen("tcp", ":50051")
+	cfg := config.GetConfig()
+
+	lis, err := net.Listen("tcp", fmt.Sprintf(":%s", cfg.File.Port))
 	if err != nil {
 		panic("grpc server not started")
 	}

@@ -16,7 +16,6 @@ type Minio struct {
 
 func NewMinio() (*Minio, error) {
 	cfg := config.GetConfig()
-
 	mc, err := minio.New(cfg.Minio.Endpoint, &minio.Options{
 		Creds:  credentials.NewStaticV4(cfg.Minio.User, cfg.Minio.Password, ""),
 		Secure: cfg.Minio.UseSSL,
@@ -28,7 +27,7 @@ func NewMinio() (*Minio, error) {
 	}
 
 	if err := CreateBucket(mc, cfg.Minio.Bucket); err != nil {
-		return nil, err
+		println(err.Error())
 	}
 
 	minio := &Minio{

@@ -2,7 +2,7 @@ server:
   host: 127.0.0.1
   port: 8080
 postgres:
-  host: postgres
+  host: 127.0.0.1
   port: 5432
   user: admin
   password: 1234
@@ -10,13 +10,13 @@ postgres:
 logger:
   env: local
 minio:
-  endpoint: minio:9000
+  endpoint: localhost:9000
   user: admin123
   password: admin123
   usessl: false
   bucket: "vedro"
 kafka:
-  host: kafka:9092
+  host: localhost:9092
   group: metadata-group
   timeout: 10000
   autocommit: true
@@ -24,10 +24,10 @@ kafka:
   commitinterval: 10000
   topic: metadata-topic
 file:
-  host: file_service
+  host: localhost
   port: 50051
 metadata:
-  host: metadata_service
+  host: localhost
   port: 50052
 
   
