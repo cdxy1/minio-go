@@ -3,7 +3,7 @@ package gateway
 import (
 	"github.com/gin-gonic/gin"
 
-	"github.com/cdxy1/go-file-storage/internal/routes/http"
+	"github.com/cdxy1/minio-go/internal/routes/http"
 )
 
 func NewApp() *gin.Engine {

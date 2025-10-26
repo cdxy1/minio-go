@@ -4,7 +4,7 @@ import (
 	"log/slog"
 	"os"
 
-	"github.com/cdxy1/go-file-storage/internal/config"
+	"github.com/cdxy1/minio-go/internal/config"
 )
 
 func SetupLogger() *slog.Logger {

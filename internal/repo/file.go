@@ -5,7 +5,7 @@ import (
 	"io"
 	"log/slog"
 
-	ms "github.com/cdxy1/go-file-storage/internal/storage/minio"
+	ms "github.com/cdxy1/minio-go/internal/storage/minio"
 	"github.com/minio/minio-go/v7"
 )
 

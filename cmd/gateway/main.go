@@ -4,7 +4,7 @@ import (
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 
-	"github.com/cdxy1/go-file-storage/internal/app/gateway"
+	"github.com/cdxy1/minio-go/internal/app/gateway"
 )
 
 func main() {

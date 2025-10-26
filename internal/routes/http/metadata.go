@@ -8,8 +8,8 @@ import (
 	"google.golang.org/protobuf/encoding/protojson"
 	"google.golang.org/protobuf/types/known/emptypb"
 
-	"github.com/cdxy1/go-file-storage/internal/grpc/metadata"
-	grpcclient "github.com/cdxy1/go-file-storage/internal/infra/grpc_client"
+	"github.com/cdxy1/minio-go/internal/grpc/metadata"
+	grpcclient "github.com/cdxy1/minio-go/internal/infra/grpc_client"
 )
 
 func NewMetadataHandler(r *gin.Engine) {

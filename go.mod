@@ -1,4 +1,4 @@
-module github.com/cdxy1/go-file-storage
+module github.com/cdxy1/minio-go
 
 go 1.25.0
 

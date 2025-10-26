@@ -4,9 +4,9 @@ import (
 	"context"
 	"log/slog"
 
-	"github.com/cdxy1/go-file-storage/internal/infra/kafka/producer"
-	"github.com/cdxy1/go-file-storage/internal/lib"
-	"github.com/cdxy1/go-file-storage/internal/service"
+	"github.com/cdxy1/minio-go/internal/infra/kafka/producer"
+	"github.com/cdxy1/minio-go/internal/lib"
+	"github.com/cdxy1/minio-go/internal/service"
 )
 
 type FileHandler struct {

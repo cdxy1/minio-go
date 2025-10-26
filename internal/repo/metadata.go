@@ -6,8 +6,8 @@ import (
 
 	"github.com/jackc/pgx/v5/pgxpool"
 
-	"github.com/cdxy1/go-file-storage/internal/entity"
-	"github.com/cdxy1/go-file-storage/internal/storage/postgres"
+	"github.com/cdxy1/minio-go/internal/entity"
+	"github.com/cdxy1/minio-go/internal/storage/postgres"
 )
 
 type Metadata struct {

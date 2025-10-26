@@ -7,8 +7,8 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	"github.com/cdxy1/go-file-storage/internal/grpc/file"
-	grpcclient "github.com/cdxy1/go-file-storage/internal/infra/grpc_client"
+	"github.com/cdxy1/minio-go/internal/grpc/file"
+	grpcclient "github.com/cdxy1/minio-go/internal/infra/grpc_client"
 )
 
 func NewFileHandler(r *gin.Engine) {

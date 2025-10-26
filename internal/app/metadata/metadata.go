@@ -7,12 +7,12 @@ import (
 
 	"google.golang.org/grpc"
 
-	"github.com/cdxy1/go-file-storage/internal/config"
-	"github.com/cdxy1/go-file-storage/internal/grpc/metadata"
-	"github.com/cdxy1/go-file-storage/internal/infra/kafka/consumer"
-	"github.com/cdxy1/go-file-storage/internal/repo"
-	"github.com/cdxy1/go-file-storage/internal/service"
-	"github.com/cdxy1/go-file-storage/pkg/logger"
+	"github.com/cdxy1/minio-go/internal/config"
+	"github.com/cdxy1/minio-go/internal/grpc/metadata"
+	"github.com/cdxy1/minio-go/internal/infra/kafka/consumer"
+	"github.com/cdxy1/minio-go/internal/repo"
+	"github.com/cdxy1/minio-go/internal/service"
+	"github.com/cdxy1/minio-go/pkg/logger"
 )
 
 func NewApp() {

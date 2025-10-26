@@ -63,8 +63,8 @@
 
 1. **Клонирование репозитория:**
 ```bash
-git clone https://github.com/cdxy1/go-file-storage.git
-cd go-file-storage
+git clone https://github.com/cdxy1/minio-go.git
+cd minio-go
 ```
 
 2. **Сборка и запуск всех сервисов:**

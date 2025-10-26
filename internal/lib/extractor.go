@@ -7,7 +7,7 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/cdxy1/go-file-storage/internal/entity"
+	"github.com/cdxy1/minio-go/internal/entity"
 )
 
 func ExtractMetadata(name string, fileData []byte) ([]byte, error) {

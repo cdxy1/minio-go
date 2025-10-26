@@ -1,6 +1,6 @@
 package main
 
-import "github.com/cdxy1/go-file-storage/internal/app/file"
+import "github.com/cdxy1/minio-go/internal/app/file"
 
 func main() {
 	file.NewApp()

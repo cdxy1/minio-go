@@ -3,7 +3,7 @@ package consumer
 import (
 	"log/slog"
 
-	"github.com/cdxy1/go-file-storage/internal/config"
+	"github.com/cdxy1/minio-go/internal/config"
 	"github.com/confluentinc/confluent-kafka-go/v2/kafka"
 )
 

@@ -5,7 +5,7 @@ import (
 	"context"
 	"io"
 
-	"github.com/cdxy1/go-file-storage/internal/repo"
+	"github.com/cdxy1/minio-go/internal/repo"
 	"log/slog"
 )
 

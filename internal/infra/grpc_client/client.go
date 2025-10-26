@@ -5,9 +5,9 @@ import (
 
 	"google.golang.org/grpc"
 
-	"github.com/cdxy1/go-file-storage/internal/config"
-	pbf "github.com/cdxy1/go-file-storage/internal/grpc/file"
-	pbm "github.com/cdxy1/go-file-storage/internal/grpc/metadata"
+	"github.com/cdxy1/minio-go/internal/config"
+	pbf "github.com/cdxy1/minio-go/internal/grpc/file"
+	pbm "github.com/cdxy1/minio-go/internal/grpc/metadata"
 	"google.golang.org/grpc/credentials/insecure"
 )
 

@@ -7,7 +7,7 @@ import (
 
 	"github.com/jackc/pgx/v5/pgxpool"
 
-	"github.com/cdxy1/go-file-storage/internal/config"
+	"github.com/cdxy1/minio-go/internal/config"
 )
 
 func NewPostgres(log *slog.Logger) (*pgxpool.Pool, error) {

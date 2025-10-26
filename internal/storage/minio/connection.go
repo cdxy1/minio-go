@@ -7,7 +7,7 @@ import (
 	"github.com/minio/minio-go/v7"
 	"github.com/minio/minio-go/v7/pkg/credentials"
 
-	"github.com/cdxy1/go-file-storage/internal/config"
+	"github.com/cdxy1/minio-go/internal/config"
 )
 
 type Minio struct {
