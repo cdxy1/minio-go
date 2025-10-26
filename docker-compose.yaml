@@ -1,4 +1,30 @@
 services:
+  gateway:
+    build:
+      context: .
+      dockerfile: ./dockerfiles/Dockerfile.gateway
+    container_name: gateway
+    depends_on:
+      - file_service
+      - metadata_service
+    ports:
+      - "8080:8080"
+  file_service:
+    build:
+      context: .
+      dockerfile: ./dockerfiles/Dockerfile.file
+    container_name: file_service
+    depends_on:
+      - minio
+      - kafka
+  metadata_service:
+    build:
+      context: .
+      dockerfile: ./dockerfiles/Dockerfile.metadata
+    container_name: metadata_service
+    depends_on:
+      - postgres
+      - kafka
   postgres:
     image: postgres:alpine
     container_name: postgres_storage
@@ -58,3 +84,7 @@ services:
 volumes:
   postgres_data:
   minio_data:
+  
+networks:
+  backend:
+    driver: bridge

@@ -17,5 +17,7 @@ COPY --from=builder /build/gateway ./gateway
 
 COPY ./config ./config
 
+COPY ./api/rest/ ./api/rest/
+
 CMD [ "/app/gateway" ]
 
