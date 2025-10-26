@@ -23,5 +23,11 @@ kafka:
   offsetstore: false
   commitinterval: 10000
   topic: metadata-topic
+file:
+  host: localhost
+  port: 50051
+metadata:
+  host: localhost
+  port: 50052
 
   

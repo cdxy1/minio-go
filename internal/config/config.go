@@ -7,11 +7,13 @@ import (
 )
 
 type Config struct {
-	Server   ServerConfig
-	Postgres PostgresConfig
-	Logger   LoggerConfig
-	Minio    MinioConfig
-	Kafka    KafkaConfig
+	Server         ServerConfig
+	Postgres       PostgresConfig
+	Logger         LoggerConfig
+	Minio          MinioConfig
+	Kafka          KafkaConfig
+	File           FileConfig
+	MetadataConfig FileConfig
 }
 
 type ServerConfig struct {
@@ -43,6 +45,16 @@ type KafkaConfig struct {
 	OffsetStore    bool
 	CommitInterval int
 	Topic          string
+}
+
+type FileConfig struct {
+	Host string
+	Port string
+}
+
+type MetadataConfig struct {
+	Host string
+	Port string
 }
 
 type LoggerConfig struct {
