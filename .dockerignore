@@ -1,0 +1,10 @@
+.git/
+*.md
+Makefile
+scripts/
+dockerfiles/
+bin/
+.vscode/
+docker-compose.yml
+.env
+.gitignore
