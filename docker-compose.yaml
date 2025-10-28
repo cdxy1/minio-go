@@ -13,7 +13,7 @@ services:
       - backend
     environment:
       - APP_ENV=dev
-  file_service:
+  file-service:
     build:
       context: .
       dockerfile: ./dockerfiles/Dockerfile.file
@@ -23,9 +23,11 @@ services:
       - kafka
     environment:
       - APP_ENV=dev
+    ports:
+      - "50051:50051"
     networks:
       - backend
-  metadata_service:
+  metadata-service:
     build:
       context: .
       dockerfile: ./dockerfiles/Dockerfile.metadata
@@ -35,6 +37,8 @@ services:
       - kafka
     environment:
       - APP_ENV=dev
+    ports:
+      - "50052:50052"
     networks:
       - backend
   postgres:

@@ -1,0 +1,77 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose.yaml -o k8s/
+    kompose.version: 1.37.0 (fb0539e64)
+  labels:
+    io.kompose.service: kafka
+  name: kafka
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: kafka
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f docker-compose.yaml -o k8s/
+        kompose.version: 1.37.0 (fb0539e64)
+      labels:
+        io.kompose.service: kafka
+    spec:
+      containers:
+        - env:
+            - name: ALLOW_PLAINTEXT_LISTENER
+              value: "yes"
+            - name: KAFKA_ADVERTISED_LISTENERS
+              value: PLAINTEXT://kafka.storage-system.svc.cluster.local:9092
+            - name: KAFKA_CONTROLLER_LISTENER_NAMES
+              value: CONTROLLER
+            - name: KAFKA_CONTROLLER_QUORUM_VOTERS
+              value: 1@kafka.storage-system.svc.cluster.local:9093
+            - name: KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS
+              value: "0"
+            - name: KAFKA_LISTENERS
+              value: PLAINTEXT://0.0.0.0:9092,CONTROLLER://0.0.0.0:9093
+            - name: KAFKA_LISTENER_SECURITY_PROTOCOL_MAP
+              value: CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
+            - name: KAFKA_NODE_ID
+              value: "1"
+            - name: KAFKA_NUM_PARTITIONS
+              value: "3"
+            - name: KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR
+              value: "1"
+            - name: KAFKA_PROCESS_ROLES
+              value: broker,controller
+            - name: KAFKA_TRANSACTION_STATE_LOG_MIN_ISR
+              value: "1"
+            - name: KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR
+              value: "1"
+          image: apache/kafka:latest
+          livenessProbe:
+            exec:
+              command:
+                - /opt/kafka/bin/kafka-broker-api-versions.sh
+                - --bootstrap-server
+                - localhost:9092
+            failureThreshold: 5
+            periodSeconds: 5
+          name: kafka
+          ports:
+            - containerPort: 9092
+              protocol: TCP
+          volumeMounts:
+            - mountPath: /kafka-init.sh
+              name: kafka-cm0
+              subPath: kafka-init.sh
+      restartPolicy: Always
+      volumes:
+        - configMap:
+            items:
+              - key: kafka-init.sh
+                path: kafka-init.sh
+            name: kafka-cm0
+          name: kafka-cm0

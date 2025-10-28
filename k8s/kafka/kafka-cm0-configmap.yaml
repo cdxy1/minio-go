@@ -1,0 +1,20 @@
+apiVersion: v1
+data:
+  kafka-init.sh: |
+    #!/bin/sh
+
+    echo "Waiting for Kafka 10 seconds"
+    sleep 10
+
+    /opt/kafka/bin/kafka-topics.sh --create \
+      --bootstrap-server localhost:9092 \
+      --replication-factor 1 \
+      --partitions 3 \
+      --topic metadata-topic
+kind: ConfigMap
+metadata:
+  annotations:
+    use-subpath: "true"
+  labels:
+    io.kompose.service: kafka
+  name: kafka-cm0
