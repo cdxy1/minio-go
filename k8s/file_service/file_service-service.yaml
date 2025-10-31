@@ -14,3 +14,4 @@ spec:
       targetPort: 50051
   selector:
     io.kompose.service: file-service
+  type: ClusterIP

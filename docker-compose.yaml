@@ -5,8 +5,8 @@ services:
       dockerfile: ./dockerfiles/Dockerfile.gateway
     container_name: gateway
     depends_on:
-      - file_service
-      - metadata_service
+      - file-service
+      - metadata-service
     ports:
       - "8080:8080"
     networks:

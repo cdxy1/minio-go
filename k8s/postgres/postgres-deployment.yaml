@@ -1,52 +1,94 @@
+# apiVersion: apps/v1
+# kind: StatefulSet
+# metadata:
+#   name: postgres
+# spec:
+#   serviceName: postgres
+#   replicas: 1
+#   selector:
+#     matchLabels:
+#       app: postgres
+#   template:
+#     metadata:
+#       labels:
+#         app: postgres
+#     spec:
+#       containers:
+#         - name: postgres
+#           image: postgres:alpine
+#           env:
+#             - name: POSTGRES_DB
+#               value: storage
+#             - name: POSTGRES_PASSWORD
+#               value: "1234"
+#             - name: POSTGRES_USER
+#               value: admin
+#           ports:
+#             - containerPort: 5432
+#           readinessProbe:
+#             exec:
+#               command: ["pg_isready", "-U", "admin"]
+#             initialDelaySeconds: 5
+#             periodSeconds: 5
+#           volumeMounts:
+#             - name: data
+#               mountPath: /var/lib/postgresql/data
+#   volumeClaimTemplates:
+#     - metadata:
+#         name: data
+#       spec:
+#         accessModes: ["ReadWriteOnce"]
+#         resources:
+#           requests:
+#             storage: 1Gi
+
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
-  annotations:
-    kompose.cmd: kompose convert -f docker-compose.yaml -o k8s/
-    kompose.version: 1.37.0 (fb0539e64)
-  labels:
-    io.kompose.service: postgres
   name: postgres
 spec:
-  replicas: 1
   selector:
     matchLabels:
-      io.kompose.service: postgres
-  strategy:
-    type: Recreate
+      app: postgres
+  serviceName: postgres
+  replicas: 1
   template:
     metadata:
-      annotations:
-        kompose.cmd: kompose convert -f docker-compose.yaml -o k8s/
-        kompose.version: 1.37.0 (fb0539e64)
       labels:
-        io.kompose.service: postgres
+        app: postgres
     spec:
       containers:
-        - env:
-            - name: POSTGRES_DB
-              value: storage
-            - name: POSTGRES_PASSWORD
-              value: "1234"
-            - name: POSTGRES_USER
-              value: admin
-          image: postgres:alpine
-          livenessProbe:
-            exec:
-              command:
-                - pg_isready -U admin
-            failureThreshold: 5
-            periodSeconds: 5
-            timeoutSeconds: 3
+      - name: postgres
+        image: postgres:alpine
+        env:
+          - name: POSTGRES_DB
+            value: storage
+          - name: POSTGRES_PASSWORD
+            value: "1234"
+          - name: POSTGRES_USER
+            value: admin
+        ports:
+        - containerPort: 5432
           name: postgres
-          ports:
-            - containerPort: 5432
-              protocol: TCP
-          volumeMounts:
-            - mountPath: /var/lib/postgresql/data
-              name: postgres-data
-      restartPolicy: Always
-      volumes:
+        readinessProbe:
+          exec:
+            command: ["pg_isready", "-U", "admin"]
+          initialDelaySeconds: 5
+          periodSeconds: 5
+        livenessProbe:
+          exec:
+            command: ["pg_isready", "-U", "admin"]
+          initialDelaySeconds: 5
+          periodSeconds: 5
+        volumeMounts:
         - name: postgres-data
-          persistentVolumeClaim:
-            claimName: postgres-data
+          mountPath: /temp/postgres/data
+  volumeClaimTemplates:
+  - metadata:
+      name: postgres-data
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 1Gi
+

@@ -14,3 +14,4 @@ spec:
       targetPort: 50052
   selector:
     io.kompose.service: metadata-service
+  type: ClusterIP

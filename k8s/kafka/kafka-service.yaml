@@ -1,16 +1,13 @@
 apiVersion: v1
 kind: Service
 metadata:
-  annotations:
-    kompose.cmd: kompose convert -f docker-compose.yaml -o k8s/
-    kompose.version: 1.37.0 (fb0539e64)
-  labels:
-    io.kompose.service: kafka
   name: kafka
 spec:
-  ports:
-    - name: "9092"
-      port: 9092
-      targetPort: 9092
+  clusterIP: None
   selector:
-    io.kompose.service: kafka
+    app: kafka
+  ports:
+    - port: 9092
+      name: broker
+    - port: 9093
+      name: controller
